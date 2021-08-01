@@ -15,24 +15,27 @@ client.on('ready', () => {
 });
 
 client.on('message', async msg => {
+
+  // don't let the bot reply to itself
   if (msg.author.bot)
     return
 
+  // handle commands
   if (!msg.content.startsWith('!'))
     return
 
   const serverQueue = queue.get(msg.guild.id)
 
-  if (msg.content === '!play') {
+  if (msg.content.startsWith('!play')) {
     parse(msg, serverQueue)
     return
-  } else if (msg.content === '!pause') {
+  } else if (msg.content.startsWith('!pause')) {
     pause(msg, serverQueue)
     return
-  } else if (msg.content === '!skip') {
+  } else if (msg.content.startsWith('!skip')) {
     skip(msg, serverQueue)
     return
-  } else if (msg.content === '!stop') {
+  } else if (msg.content.startsWith('!stop')) {
     play(msg, serverQueue)
     return
   } else {
