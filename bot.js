@@ -1,5 +1,3 @@
-//@ts-check
-
 require('dotenv').config()
 
 const ytdl = require('ytdl-core')
@@ -19,6 +17,9 @@ client.on('message', async msg => {
   // don't let the bot reply to itself
   if (msg.author.bot)
     return
+
+  if (msg.mentions.has(client.user))
+    msg.reply('Hi!')
 
   // handle commands
   if (!msg.content.startsWith('!'))
@@ -41,9 +42,6 @@ client.on('message', async msg => {
   } else {
     msg.reply('That is not a valid command')
   }
-
-  if (msg.mentions.has(client.user))
-    msg.reply('Hi!')
 });
 
 /**
@@ -52,7 +50,7 @@ client.on('message', async msg => {
  * @param {Map} serverQueue
  */
 async function parse(message, serverQueue) {
-  const [command, url] = message.content.split(" ");
+  const [_, url] = message.content.split(" ");
 
   try {
     new URL(url)
@@ -61,15 +59,21 @@ async function parse(message, serverQueue) {
   }
 
   const voiceChannel = message.member.voice.channel;
-  const permissions = voiceChannel.permissionsFor(message.client.user);
-
-  if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
-    return message.reply("I don't have the right permissions to join and speak in your voice channel.");
-
   if (!voiceChannel)
     return message.reply("You need to be in a voice channel to play music.");
 
-  const songInfo = await ytdl.getInfo(url);
+  const permissions = voiceChannel.permissionsFor(message.client.user);
+  if (!permissions.has("CONNECT") || !permissions.has("SPEAK"))
+    return message.reply("I don't have the right permissions to join and speak in your voice channel.");
+
+  let songInfo
+
+  try {
+    songInfo = await ytdl.getInfo(url);
+  } catch (error) {
+
+  }
+
   const song = {
     title: songInfo.videoDetails.title,
     url: songInfo.videoDetails.video_url,
