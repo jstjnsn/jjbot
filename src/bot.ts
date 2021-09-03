@@ -1,4 +1,4 @@
-/// <reference path="/Users/joostjansen/Code/1. in_progress/jjbot/node_modules/discord.js/typings/index.d.ts" />
+/// <reference path="../node_modules/discord.js/typings/index.d.ts" />
 
 require("dotenv").config();
 
