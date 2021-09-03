@@ -17,9 +17,7 @@
     "ffmpeg": "^0.0.4",
     "ffmpeg-static": "^4.4.0",
     "fluent-ffmpeg": "^2.1.2",
-    "ytdl-core": "^4.9.1"
-  },
-  "devDependencies": {
+    "ytdl-core": "^4.9.1",
     "@types/node": "^16.7.10",
     "@types/ws": "^7.4.7",
     "rimraf": "^3.0.2",
